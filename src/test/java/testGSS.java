@@ -1,4 +1,5 @@
 import GraphStreamSketch.GSS;
+import GraphStreamSketch.HashFunction;
 
 import java.util.ArrayList;
 
@@ -20,7 +21,7 @@ public class testGSS {
         // the size of the table
         int TableSize = 2000;
 
-        GSS testGSS = new GSS(width, range, p_num, size, f_num, usehashtable, TableSize);
+        GSS testGSS = new GSS(width, range, p_num, size, f_num, usehashtable, TableSize, HashFunction.hashfunctions.BOB1);
 
         testGSS.insert("1", "2", 1);
         testGSS.insert("3", "2", 1);

@@ -1,4 +1,5 @@
 import GraphStreamSketch.GSS;
+import GraphStreamSketch.HashFunction;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public class testGSSFile {
         // the size of the table
         int TableSize = 2000;
 
-        GSS testGSS = new GSS(width, range, p_num, size, f_num, usehashtable, TableSize);
+        GSS testGSS = new GSS(width, range, p_num, size, f_num, usehashtable, TableSize, HashFunction.hashfunctions.BOB1);
 
         String fileName = "src/main/resources/out.wiki_talk_ht";
         File file = new File(fileName);

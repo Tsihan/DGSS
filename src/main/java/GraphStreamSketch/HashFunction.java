@@ -4,6 +4,95 @@ import com.google.common.primitives.UnsignedInteger;
 
 public class HashFunction {
     /**
+     * 共23个哈希函数
+     */
+    public enum hashfunctions {
+        JSHash, BKDR, DJBHash, DEKHash, APHash,
+        CRC32, SDBM, OCaml, SML, STL,
+        FNV32, PJWHash, RS, JS, PJW,
+        SDBW, DJB, RSHash, Hsieh, BOB1,
+        BOB2, BOB3, BOB4;
+    }
+
+    public static int CalculateHashValue(byte[] str, int len, hashfunctions hashFunctionType) {
+        switch (hashFunctionType) {
+            case JS:
+                return JS(str, len);
+
+            case RS:
+                return RS(str, len);
+
+            case DJB:
+                return DJB(str, len);
+
+            case PJW:
+                return PJW(str, len);
+
+            case SML:
+                return SML(str, len);
+
+            case STL:
+                return STL(str, len);
+
+            case BKDR:
+                return BKDR(str, len);
+
+            case SDBM:
+                return SDBM(str, len);
+
+            case SDBW:
+                return SDBW(str, len);
+
+            case CRC32:
+                return CRC32(str, len);
+
+            case APHash:
+                return APHash(str, len);
+
+            case JSHash:
+                return JSHash(str, len);
+
+            case RSHash:
+                return RSHash(str, len);
+
+            case DEKHash:
+                return DEKHash(str, len);
+
+            case BOB1:
+                return BOB1(str, len);
+
+            case BOB2:
+                return BOB2(str, len);
+
+            case BOB3:
+                return BOB3(str, len);
+
+            case BOB4:
+                return BOB4(str, len);
+
+            case FNV32:
+                return FNV32(str, len);
+
+            case Hsieh:
+                return Hsieh(str, len);
+
+            case OCaml:
+                return OCaml(str, len);
+
+            case DJBHash:
+                return DJBHash(str, len);
+
+            case PJWHash:
+                return PJWHash(str, len);
+
+            default:
+                System.out.println("The hash function doesn't exist!");
+                throw new IllegalArgumentException("The hash function must exist in the enum list!");
+        }
+
+    }
+
+    /**
      * JSHash
      *
      * @param str
@@ -15,7 +104,7 @@ public class HashFunction {
         for (int i = 0; i < len; i++) {
             hash ^= ((hash << 5) + str[i] + (hash >>> 2));
         }
-     //   System.out.println("the hash value is : " + UnsignedInteger.fromIntBits(hash));
+        //   System.out.println("the hash value is : " + UnsignedInteger.fromIntBits(hash));
         return hash;
     }
 
@@ -32,7 +121,7 @@ public class HashFunction {
         for (int i = 0; i < len; i++) {
             hash = (hash * seed) + str[i];
         }
-    //    System.out.println("the hash value is : " + UnsignedInteger.fromIntBits(hash));
+        //    System.out.println("the hash value is : " + UnsignedInteger.fromIntBits(hash));
         return hash;
     }
 
@@ -48,7 +137,7 @@ public class HashFunction {
         for (int i = 0; i < len; i++) {
             hash += (hash << 5) + (str[i]);
         }
-      //  System.out.println("the hash value is : " + UnsignedInteger.fromIntBits(hash));
+        //  System.out.println("the hash value is : " + UnsignedInteger.fromIntBits(hash));
         return hash;
     }
 
@@ -64,7 +153,7 @@ public class HashFunction {
         for (int i = 0; i < len; i++) {
             hash = ((hash << 5) ^ (hash >>> 27)) ^ str[i];
         }
-      //  System.out.println("the hash value is : " + UnsignedInteger.fromIntBits(hash));
+        //  System.out.println("the hash value is : " + UnsignedInteger.fromIntBits(hash));
         return hash;
     }
 
@@ -84,7 +173,7 @@ public class HashFunction {
                 hash ^= (~((hash << 11) ^ (str[i]) ^ (hash >>> 5)));
             }
         }
-      //  System.out.println("the hash value is : " + UnsignedInteger.fromIntBits(hash));
+        //  System.out.println("the hash value is : " + UnsignedInteger.fromIntBits(hash));
         return hash;
     }
 
@@ -131,7 +220,7 @@ public class HashFunction {
             hash = (hash >>> 8) ^ crctab[(hash & 0xFF) ^ str[i]];
         }
         hash ^= 0xFFFFFFFF;
-    //    System.out.println("the hash value is : " + UnsignedInteger.fromIntBits(hash));
+        //    System.out.println("the hash value is : " + UnsignedInteger.fromIntBits(hash));
         return hash;
     }
 
@@ -147,7 +236,7 @@ public class HashFunction {
         for (int i = 0; i < len; i++) {
             hash = str[i] + (hash << 6) + (hash << 16) - hash;
         }
-       // System.out.println("the hash value is : " + UnsignedInteger.fromIntBits(hash));
+        // System.out.println("the hash value is : " + UnsignedInteger.fromIntBits(hash));
         return hash;
     }
 
@@ -163,7 +252,7 @@ public class HashFunction {
         for (int i = 0; i < len; i++) {
             hash = hash * 19 + str[i];
         }
-       // System.out.println("the hash value is : " + UnsignedInteger.fromIntBits(hash));
+        // System.out.println("the hash value is : " + UnsignedInteger.fromIntBits(hash));
         return hash;
     }
 
@@ -179,7 +268,7 @@ public class HashFunction {
         for (int i = 0; i < len; i++) {
             hash = 33 * hash + 720 + str[i];
         }
-     //   System.out.println("the hash value is : " + UnsignedInteger.fromIntBits(hash));
+        //   System.out.println("the hash value is : " + UnsignedInteger.fromIntBits(hash));
         return hash;
     }
 
@@ -195,7 +284,7 @@ public class HashFunction {
         for (int i = 0; i < len; i++) {
             hash = 5 * hash + str[i];
         }
-       // System.out.println("the hash value is : " + UnsignedInteger.fromIntBits(hash));
+        // System.out.println("the hash value is : " + UnsignedInteger.fromIntBits(hash));
         return hash;
     }
 
@@ -213,7 +302,7 @@ public class HashFunction {
             /* xor the bottom with the current octet */
             hash ^= (int) str[i];
         }
-      //  System.out.println("the hash value is : " + UnsignedInteger.fromIntBits(hash));
+        //  System.out.println("the hash value is : " + UnsignedInteger.fromIntBits(hash));
         return hash;
     }
 
@@ -239,7 +328,7 @@ public class HashFunction {
                 hash = ((hash ^ (test >>> ThreeQuarters)) & (~HighBits));
             }
         }
-      //  System.out.println("the hash value is : " + UnsignedInteger.fromIntBits(hash));
+        //  System.out.println("the hash value is : " + UnsignedInteger.fromIntBits(hash));
         return hash;
     }
 
@@ -258,7 +347,7 @@ public class HashFunction {
             hash = hash * a + str[i];
             a = a * b;
         }
-       // System.out.println("the hash value is : " + UnsignedInteger.fromIntBits(hash));
+        // System.out.println("the hash value is : " + UnsignedInteger.fromIntBits(hash));
         return hash;
     }
 
@@ -274,7 +363,7 @@ public class HashFunction {
         for (int i = 0; i < len; i++) {
             hash ^= ((hash << 5) + str[i] + (hash >>> 2));
         }
-       // System.out.println("the hash value is : " + UnsignedInteger.fromIntBits((int) hash));
+        // System.out.println("the hash value is : " + UnsignedInteger.fromIntBits((int) hash));
         return (int) hash;
     }
 
@@ -298,7 +387,7 @@ public class HashFunction {
                 hash = ((hash ^ (test >>> ThreeQuarters)) & (~HighBits));
             }
         }
-     //   System.out.println("the hash value is : " + UnsignedInteger.fromIntBits(hash));
+        //   System.out.println("the hash value is : " + UnsignedInteger.fromIntBits(hash));
         return hash;
     }
 
@@ -314,7 +403,7 @@ public class HashFunction {
         for (int i = 0; i < len; i++) {
             hash = str[i] + (hash << 6) + (hash << 16) - hash;
         }
-      //  System.out.println("the hash value is : " + UnsignedInteger.fromIntBits(hash));
+        //  System.out.println("the hash value is : " + UnsignedInteger.fromIntBits(hash));
         return hash;
     }
 
@@ -330,7 +419,7 @@ public class HashFunction {
         for (int i = 0; i < len; i++) {
             hash = ((hash << 5) + hash) + str[i];
         }
-       // System.out.println("the hash value is : " + UnsignedInteger.fromIntBits(hash));
+        // System.out.println("the hash value is : " + UnsignedInteger.fromIntBits(hash));
         return hash;
     }
 
@@ -349,7 +438,7 @@ public class HashFunction {
             hash = hash * a + (str[i]);
             a *= b;
         }
-     //   System.out.println("the hash value is : " + UnsignedInteger.fromIntBits(hash));
+        //   System.out.println("the hash value is : " + UnsignedInteger.fromIntBits(hash));
         return hash;
     }
 
@@ -440,7 +529,7 @@ public class HashFunction {
         hash += hash >>> 17;
         hash ^= hash << 25;
         hash += hash >>> 6;
-      //  System.out.println("the hash value is : " + UnsignedInteger.fromIntBits(hash));
+        //  System.out.println("the hash value is : " + UnsignedInteger.fromIntBits(hash));
         return hash;
     }
 
@@ -560,7 +649,7 @@ public class HashFunction {
         int[] temp = mix(a, b, c);
         c = temp[2];
         /*-------------------------------------------- report the result */
-     //   System.out.println("the hash value is : " + UnsignedInteger.fromIntBits(c));
+        //   System.out.println("the hash value is : " + UnsignedInteger.fromIntBits(c));
         return c;
     }
 
@@ -644,7 +733,7 @@ public class HashFunction {
         int[] temp = mix(a, b, c);
         c = temp[2];
         /*-------------------------------------------- report the result */
-      //  System.out.println("the hash value is : " + UnsignedInteger.fromIntBits(c));
+        //  System.out.println("the hash value is : " + UnsignedInteger.fromIntBits(c));
         return c;
     }
 
@@ -728,7 +817,7 @@ public class HashFunction {
         int[] temp = mix(a, b, c);
         c = temp[2];
         /*-------------------------------------------- report the result */
-       // System.out.println("the hash value is : " + UnsignedInteger.fromIntBits(c));
+        // System.out.println("the hash value is : " + UnsignedInteger.fromIntBits(c));
         return c;
     }
 
@@ -812,7 +901,7 @@ public class HashFunction {
         int[] temp = mix(a, b, c);
         c = temp[2];
         /*-------------------------------------------- report the result */
-       // System.out.println("the hash value is : " + UnsignedInteger.fromIntBits(c));
+        // System.out.println("the hash value is : " + UnsignedInteger.fromIntBits(c));
         return c;
     }
 

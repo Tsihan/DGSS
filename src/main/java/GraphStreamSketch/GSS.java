@@ -26,7 +26,7 @@ final class DefineConstants {
     public static final int bigger_p = 1048576;
     public static final int timer = 5;
     public static final int M = 80000;
-    public static final int Roomnum = 2; // This is the parameter to controll the maximum number of rooms in a bucket.
+    public static final int Roomnum = 2; // This is the parameter to control the maximum number of rooms in a bucket.
 }
 
 class mapnode {
@@ -54,6 +54,9 @@ public class GSS implements Serializable {
 
     private basket[] value;
 
+    //新增哈希函数类型
+    private HashFunction.hashfunctions hft;
+
     //可以将ArrayList修改为Cache类型
    // Cache<Integer, Short> cache = CacheBuilder.newBuilder().build();
 
@@ -65,12 +68,13 @@ public class GSS implements Serializable {
     public int edge_num;
 
 
-    public GSS(int width, int range, int p_num, int size, int f_num, boolean usehashtable, int TableSize) {
+    public GSS(int width, int range, int p_num, int size, int f_num, boolean usehashtable, int TableSize,HashFunction.hashfunctions hashFunctionType) {
         w = width;
         r = range; // r x r mapped baskets
         p = p_num; //candidate buckets
         s = size; //multiple rooms
         f = f_num; //finger print lenth
+        hft = hashFunctionType;//新增函数类型
         n = 0;
         edge_num = 0;
         value = new basket[w * w];
@@ -102,31 +106,24 @@ public class GSS implements Serializable {
 
     public void insert(String s1, String s2, int weight) {
 
-        int hash1 = HashFunction.BOB1(s1.getBytes(StandardCharsets.UTF_8), s1.length());
-
-
-        int hash2 = HashFunction.BOB1(s2.getBytes(StandardCharsets.UTF_8), s2.length());
-
-
+        int hash1 = HashFunction.CalculateHashValue(s1.getBytes(StandardCharsets.UTF_8), s1.length(), hft);
+        int hash2 = HashFunction.CalculateHashValue(s2.getBytes(StandardCharsets.UTF_8), s2.length(), hft);
         int tmp = (int) (Math.pow(2, f) - 1);
-
         short g1 = (short) (hash1 & tmp);
+
         if (g1 == 0) {
             g1 += 1;
         }
 
         int h1 = (hash1 >>> f) % w;
-
         short g2 = (short) (hash2 & tmp);
+
         if (g2 == 0) {
             g2 += 1;
         }
 
         int h2 = (hash2 >>> f) % w;
-
-
         int k1 = (h1 << f) + g1;
-
         int k2 = (h2 << f) + g2;
 
         if (useT) {
@@ -138,12 +135,15 @@ public class GSS implements Serializable {
         int[] tmp2 = new int[r];
         tmp1[0] = g1;
         tmp2[0] = g2;
+
         for (int i = 1; i < r; i++) {
             tmp1[i] = (tmp1[i - 1] * DefineConstants.timer + DefineConstants.prime) % DefineConstants.bigger_p;
             tmp2[i] = (tmp2[i - 1] * DefineConstants.timer + DefineConstants.prime) % DefineConstants.bigger_p;
         }
+
         boolean inserted = false;
         long key = g1 + g2;
+
         for (int i = 0; i < p; i++) {
             key = (key * DefineConstants.timer + DefineConstants.prime) % DefineConstants.bigger_p;
             int index = (int) (key % (r * r));
@@ -155,7 +155,6 @@ public class GSS implements Serializable {
 
             int pos = p1 * w + p2;
             for (int j = 0; j < s; j++) {
-                //C++ TO JAVA CONVERTER WARNING: The right shift operator was not replaced by Java's logical right shift operator since the left operand was not confirmed to be of an unsigned type, but you should review whether the logical right shift operator (>>>) is more appropriate:
                 if ((((value[pos].idx >>> (j << 3)) & ((1 << 8) - 1)) == (index1 | (index2 << 4))) && (value[pos].src[j] == g1) && (value[pos].dst[j] == g2)) {
                     value[pos].weight[j] += weight;
                     inserted = true;
@@ -175,11 +174,10 @@ public class GSS implements Serializable {
             }
         }
         if (!inserted) {
-
-            // Iterator<Integer, Integer> it = index.find(k1);
             Iterator<Map.Entry<Integer, Integer>> it = index.entrySet().iterator();
             boolean found = false;
             Map.Entry<Integer, Integer> entryNow = null;
+
             while (it.hasNext()) {
                 Map.Entry<Integer, Integer> entry = it.next();
                 if (entry.getKey().equals(k1)) {
@@ -190,9 +188,6 @@ public class GSS implements Serializable {
             }
 
             if (found) {
-
-
-                // int tag = it.second;
 
                 int tag = entryNow.getValue();
 
@@ -242,7 +237,7 @@ public class GSS implements Serializable {
     }
 
     public void nodeSuccessorQuery(String s1, ArrayList<String> IDs) {
-        int hash1 = HashFunction.BOB1(s1.getBytes(StandardCharsets.UTF_8), s1.length());
+        int hash1 = HashFunction.CalculateHashValue(s1.getBytes(StandardCharsets.UTF_8), s1.length(), hft);
         int tmp = (int) (Math.pow(2, f) - 1);
         short g1 = (short) (hash1 & tmp);
 
@@ -310,14 +305,11 @@ public class GSS implements Serializable {
     }
 
     public void nodePrecursorQuery(String s1, ArrayList<String> IDs) {
-
-        int hash1 = HashFunction.BOB1(s1.getBytes(StandardCharsets.UTF_8), s1.length());
-
+        int hash1 = HashFunction.CalculateHashValue(s1.getBytes(StandardCharsets.UTF_8), s1.length(), hft);
         int tmp = (int) (Math.pow(2, f) - 1);
-
         short g1 = (short) (hash1 & tmp);
-
         int h1 = (hash1 >>> f) % w;
+
         if (g1 == 0) {
             g1 += 1;
         }
@@ -368,7 +360,6 @@ public class GSS implements Serializable {
 
 
         if (found) {
-            //C++ TO JAVA CONVERTER TASK: Iterators are only converted within the context of 'while' and 'for' loops:
             if (buffer.get(entryNow.getValue()).weight != 0) {
                 mapTable.getID(k1, IDs);
             }
@@ -400,8 +391,8 @@ public class GSS implements Serializable {
      * @return
      */
     public int edgeQuery(String s1, String s2) {
-        int hash1 = HashFunction.BOB1(s1.getBytes(StandardCharsets.UTF_8), s1.length());
-        int hash2 = HashFunction.BOB1(s2.getBytes(StandardCharsets.UTF_8), s2.length());
+        int hash1 = HashFunction.CalculateHashValue(s1.getBytes(StandardCharsets.UTF_8), s1.length(), hft);
+        int hash2 = HashFunction.CalculateHashValue(s2.getBytes(StandardCharsets.UTF_8), s2.length(), hft);
         int tmp = (int) (Math.pow(2, f) - 1);
         short g1 = (short) (hash1 & tmp);
 
@@ -485,8 +476,8 @@ public class GSS implements Serializable {
      * @return
      */
     public boolean query(String s1, String s2) {
-        int hash1 = HashFunction.BOB1(s1.getBytes(StandardCharsets.UTF_8), s1.length());
-        int hash2 = HashFunction.BOB1(s2.getBytes(StandardCharsets.UTF_8), s2.length());
+        int hash1 = HashFunction.CalculateHashValue(s1.getBytes(StandardCharsets.UTF_8), s1.length(), hft);
+        int hash2 = HashFunction.CalculateHashValue(s2.getBytes(StandardCharsets.UTF_8), s2.length(), hft);
         int tmp = (int) (Math.pow(2, f) - 1);
         short g1 = (short) (hash1 & tmp);
 
@@ -656,7 +647,7 @@ public class GSS implements Serializable {
      */
     public int nodeValueQuery(String s1, int type) {
         int weight = 0;
-        int hash1 = HashFunction.BOB1(s1.getBytes(StandardCharsets.UTF_8), s1.length());
+        int hash1 = HashFunction.CalculateHashValue(s1.getBytes(StandardCharsets.UTF_8), s1.length(), hft);
         int tmp = (int) (Math.pow(2, f) - 1);
         short g1 = (short) (hash1 & tmp);
 
@@ -771,15 +762,18 @@ public class GSS implements Serializable {
      */
     public int nodeDegreeQuery(String s1, int type) {
         int degree = 0;
-        int hash1 = HashFunction.BOB1(s1.getBytes(StandardCharsets.UTF_8), s1.length());
+        int hash1 = HashFunction.CalculateHashValue(s1.getBytes(StandardCharsets.UTF_8), s1.length(),hft);
         int tmp = (int) (Math.pow(2, f) - 1);
         short g1 = (short) (hash1 & tmp);
+
         if (g1 == 0) {
             g1 += 1;
         }
+
         int h1 = (hash1 >>> f) % w;
         int[] tmp1 = new int[r];
         tmp1[0] = g1;
+
         for (int i = 1; i < r; i++) {
             tmp1[i] = (tmp1[i - 1] * DefineConstants.timer + DefineConstants.prime) % DefineConstants.bigger_p;
         }

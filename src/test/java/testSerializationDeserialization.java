@@ -1,4 +1,6 @@
 import GraphStreamSketch.GSS;
+import GraphStreamSketch.HashFunction;
+
 import java.io.*;
 import java.util.ArrayList;
 
@@ -20,7 +22,7 @@ public class testSerializationDeserialization {
         // the size of the table
         int TableSize = 200;
 
-        GSS testGSS = new GSS(width, range, p_num, size, f_num, usehashtable, TableSize);
+        GSS testGSS = new GSS(width, range, p_num, size, f_num, usehashtable, TableSize, HashFunction.hashfunctions.BOB1);
 
         testGSS.insert("1", "2", 1);
         testGSS.insert("3", "2", 1);
