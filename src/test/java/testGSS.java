@@ -1,10 +1,11 @@
 import GraphStreamSketch.GSS;
 import GraphStreamSketch.HashFunction;
 
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 public class testGSS {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws UnknownHostException {
         /*初始化GSS测试参数*/
         // the side length of matrix
         int width = 2000;
@@ -22,6 +23,10 @@ public class testGSS {
         int TableSize = 2000;
 
         GSS testGSS = new GSS(width, range, p_num, size, f_num, usehashtable, TableSize, HashFunction.hashfunctions.BOB1);
+
+        System.out.println("IP地址为： " + testGSS.IPaddress);
+        System.out.println(testGSS.hft);
+        System.out.println(testGSS.hft.equals(HashFunction.hashfunctions.BOB1));
 
         testGSS.insert("1", "2", 1);
         testGSS.insert("3", "2", 1);

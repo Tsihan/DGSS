@@ -7,7 +7,7 @@ public class testHashFunction {
         System.out.println("Hello, World!\n");
 
         HashFunction.Hsieh("vdfsvbfhsgdbfdsgsd".getBytes(StandardCharsets.UTF_8), 4);
-        HashFunction.CalculateHashValue("vdfsvbfhsgdbfdsgsd".getBytes(StandardCharsets.UTF_8), 4, HashFunction.hashfunctions.Hsieh);
+        HashFunction.CalculateHashValue("qweY".getBytes(StandardCharsets.UTF_8), 4, HashFunction.hashfunctions.Hsieh);
 
 
     }

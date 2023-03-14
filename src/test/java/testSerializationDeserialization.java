@@ -2,10 +2,11 @@ import GraphStreamSketch.GSS;
 import GraphStreamSketch.HashFunction;
 
 import java.io.*;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 public class testSerializationDeserialization {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws UnknownHostException {
         /*初始化GSS测试参数*/
         // the side length of matrix
         int width = 200;
@@ -71,7 +72,7 @@ public class testSerializationDeserialization {
         System.out.print("end.");
         System.out.print("\n");
 
-        //将testGSS的内容全部写到GSS.dat文件中去
+       //将testGSS的内容全部写到GSS.dat文件中去
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("src/main/resources/GSS.dat"))) {
             out.writeObject(testGSS);
         } catch (IOException e) {

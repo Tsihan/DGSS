@@ -10,7 +10,7 @@ public class HashFunction {
         JSHash, BKDR, DJBHash, DEKHash, APHash,
         CRC32, SDBM, OCaml, SML, STL,
         FNV32, PJWHash, RS, JS, PJW,
-        SDBW, DJB, RSHash, Hsieh, BOB1,
+        SDBW, DJB, RSHash, BOB1, Hsieh,
         BOB2, BOB3, BOB4;
     }
 
@@ -442,9 +442,9 @@ public class HashFunction {
         return hash;
     }
 
-    public static int get16bits(byte[] str) {
-        return (((int) str[1]) << 8) + (int) str[0];
-    }
+//    public static int get16bits(byte[] str) {
+//        return (((int) str[1]) << 8) + (int) str[0];
+//    }
 
     /**
      * byte数组转换int类型
@@ -459,6 +459,22 @@ public class HashFunction {
             int shift = (4 - 1 - i) * 8;
             value += (bytes[i] & 0x000000FF) << shift;// 往高位游
         }
+        return value;
+    }
+
+    /**
+     * 字节数组到long的转换.
+     */
+    public static long byteArrayToLong(byte[] bytes) {
+        long value = 0L;
+
+        // Iterating through for loop
+        for (byte b : bytes) {
+            // Shifting previous value 8 bits to right and
+            // add it with next value
+            value = (value << 8) + (b & 255);
+        }
+
         return value;
     }
 
@@ -478,6 +494,26 @@ public class HashFunction {
         return result;
     }
 
+
+    private static final long MASK_16_BITS = 0xFFFFL;
+    private static final int MASK_BIT_1 = 0x1;
+
+    public static int get16BitsAligned(long data, int offset) {
+        // Normalize offset
+        offset = offset % 4;
+        //System.out.println("offset:"+offset);
+        // Align the mask
+        long mask = MASK_16_BITS << 16 * offset;
+        //System.out.println("Mask:"+Long.toHexString(mask));
+        //System.out.println("Data:"+Long.toHexString(data));
+
+        // Get the bits
+        long result = data & mask;
+
+        // Put bits in position
+        return (int) (result >>> (16 * offset));
+    }
+
     /**
      * Hsieh
      *
@@ -486,51 +522,37 @@ public class HashFunction {
      * @return
      */
     public static int Hsieh(byte[] str, int len) {
-        int hash = len;
+
         int tmp;
-        int rem;
 
-        rem = len & 3;
-        len >>>= 2;
-        /* Main loop */
-        for (; len > 0; len--) {
-            hash += get16bits(str);
+        int hash = len;
+        for (int i = 0; i < 4; i += 2) {
+            // Get lower 16 bits
+            // hash += get16BitsAligned(byteArrayToInt(str), i);
+            hash += get16BitsAligned(byteArrayToLong(str), i);
 
-            int tempInt = byteArrayToInt(str) + 2;
-            byte[] tempByteArray = intToByteArray(tempInt);
-            tmp = (get16bits(tempByteArray) << 11) ^ hash;
-
+            // Calculate some random value with second-lower 16 bits
+            tmp = (get16BitsAligned(byteArrayToLong(str), i + 1) << 11) ^ hash;
             hash = (hash << 16) ^ tmp;
-            str = intToByteArray(byteArrayToInt(str) + 2 * 2);
-            hash += hash >>> 11;
+            // At this point, it would advance the data, but since it is restricted
+            // to longs (64-bit values), it is unnecessary).
+            //多加了一个>
+            hash += hash >> 11;
         }
-        /* Handle end cases */
-        switch (rem) {
-            case 3:
-                hash += get16bits(str);
-                hash ^= hash << 16;
-                hash ^= str[2] << 18;
-                hash += hash >>> 11;
-                break;
-            case 2:
-                hash += get16bits(str);
-                hash ^= hash << 11;
-                hash += hash >>> 17;
-                break;
-            case 1:
-                hash += byteArrayToInt(str);
-                hash ^= hash << 10;
-                hash += hash >>> 1;
-        }
-        /* Force "avalanching" of final 127 bits */
+
+        // Handle end cases //
+        // There are no end cases, main loop is done in chuncks of 32 bits.
+
+        // Force "avalanching" of final 127 bits //
         hash ^= hash << 3;
-        hash += hash >>> 5;
+        hash += hash >> 5;
         hash ^= hash << 4;
-        hash += hash >>> 17;
+        hash += hash >> 17;
         hash ^= hash << 25;
-        hash += hash >>> 6;
-        //  System.out.println("the hash value is : " + UnsignedInteger.fromIntBits(hash));
+        hash += hash >> 6;
+        System.out.println("the hash value is : " + UnsignedInteger.fromIntBits(hash));
         return hash;
+
     }
 
     public static int[] mix(int a, int b, int c) {
@@ -649,7 +671,7 @@ public class HashFunction {
         int[] temp = mix(a, b, c);
         c = temp[2];
         /*-------------------------------------------- report the result */
-        //   System.out.println("the hash value is : " + UnsignedInteger.fromIntBits(c));
+        //  System.out.println("the hash value is : " + UnsignedInteger.fromIntBits(c));
         return c;
     }
 

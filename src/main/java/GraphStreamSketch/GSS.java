@@ -2,8 +2,12 @@ package GraphStreamSketch;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import org.apache.logging.log4j.core.config.plugins.convert.TypeConverters;
 
 import java.io.Serializable;
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
@@ -55,7 +59,10 @@ public class GSS implements Serializable {
     private basket[] value;
 
     //新增哈希函数类型
-    private HashFunction.hashfunctions hft;
+    public HashFunction.hashfunctions hft;
+
+    //新增GSS的IP地址
+    public String IPaddress = InetAddress.getLocalHost().getHostAddress();
 
     //可以将ArrayList修改为Cache类型
    // Cache<Integer, Short> cache = CacheBuilder.newBuilder().build();
@@ -68,7 +75,7 @@ public class GSS implements Serializable {
     public int edge_num;
 
 
-    public GSS(int width, int range, int p_num, int size, int f_num, boolean usehashtable, int TableSize,HashFunction.hashfunctions hashFunctionType) {
+    public GSS(int width, int range, int p_num, int size, int f_num, boolean usehashtable, int TableSize,HashFunction.hashfunctions hashFunctionType) throws UnknownHostException {
         w = width;
         r = range; // r x r mapped baskets
         p = p_num; //candidate buckets
