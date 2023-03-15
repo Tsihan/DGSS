@@ -3,7 +3,8 @@ import GraphStreamSketch.HashFunction;
 import GraphStreamSketch.ListGraph;
 import ResultEvaluation.EvaluationResultGetter;
 
-import java.io.IOException;
+
+import java.io.*;
 
 public class testEvaluationResultGetter {
     public static void main(String[] args) throws IOException {
@@ -27,7 +28,24 @@ public class testEvaluationResultGetter {
         GSS testGSS = new GSS(width, range, p_num, size, f_num, usehashtable, TableSize, HashFunction.hashfunctions.BOB1);
         ListGraph testListGraph = new ListGraph();
         //通过测试
-        System.out.println(EvaluationResultGetter.getAverageRelativeError(testGSS,testListGraph,"src/main/resources/out.wiki_talk_ht"));
+       // System.out.println(EvaluationResultGetter.getAverageRelativeError(testGSS,testListGraph,"src/main/resources/out.wiki_talk_ht"));
+        //通过测试
+       // EvaluationResultGetter.getDeduplicatedNodes("src/main/resources/out.wiki_talk_ht");
+        //通过测试
+       // System.out.println(EvaluationResultGetter.getAveragePrecision(testGSS,testListGraph,"src/main/resources/out.wiki_talk_ht"));
+
+
+
+
+
+        //小数据集
+     //  String fileName = "src/main/resources/out.wiki_talk_ht";
+        //大一些的数据集
+         String fileName = "src/main/resources/out.wiki_talk_lv_tsv";
+        //测试通过 负向优化 参数需要调整
+        //EvaluationResultGetter.getCompressionRatio(testGSS,testListGraph,fileName);
+        EvaluationResultGetter.getBufferPercentage(testGSS,fileName);
+
 
     }
 }

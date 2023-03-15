@@ -347,7 +347,52 @@ public class ListGraph {
         return weight;
     }
 
+
     /**
+     * 返回对于特定节点某一标签出方向节点的ID数组,即successor
+     *
+     * @param s1    某一节点的ID
+     * @param label 边的标签
+     * @return 对于特定节点某一标签出方向节点的ID数组(不同因为时间戳累加)
+     */
+//    public ArrayList<String> nodeSuccessorQuery(String s1, int label) {
+//        ArrayList<String> successors = new ArrayList<>();
+//        int degree = 0;
+//        boolean found = false;
+//
+//
+//            int n1 = 0;
+//            for (Map.Entry<String, Integer> entry : index.entrySet()) {
+//                if (entry.getKey().equals(s1)) {
+//                    n1 = entry.getValue();
+//                    found = true;
+//                    break;
+//                }
+//            }
+//
+//            if (!found) {
+//                return successors;
+//            }
+//
+//            ListEdge e = g.get(n1);
+//            e = e.next;
+//
+//            while (e != null) {
+//                if (e.label == label) {
+//                    //在这里添加代码
+//
+//                    e.n
+//                    successors.add();
+//                    ++degree;
+//                }
+//                e = e.next;
+//            }
+//
+//        return successors;
+//    }
+
+    /**
+     *
      * @param successor 后继
      * @param presussor 前驱
      * @param label     边的标签
