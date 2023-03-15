@@ -67,9 +67,9 @@ public class GSS implements Serializable {
     //可以将ArrayList修改为Cache类型
    // Cache<Integer, Short> cache = CacheBuilder.newBuilder().build();
 
-    public ArrayList<linknode> buffer = new ArrayList<linknode>();
+    public ArrayList<linknode> buffer = new ArrayList<>();
 
-    public HashMap<Integer, Integer> index = new HashMap<Integer, Integer>();
+    public HashMap<Integer, Integer> index = new HashMap<>();
     public int n;
     // count the number of edges in the buffer to assist buffer size analysis. Self loop edge is not included as it does not use additional memory.
     public int edge_num;
