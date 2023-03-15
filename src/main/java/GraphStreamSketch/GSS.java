@@ -47,7 +47,7 @@ class linknode implements Serializable {
 
 public class GSS implements Serializable {
 
-    private HashTable<String> mapTable = new HashTable<String>();
+    private HashTable<String> mapTable = new HashTable<>();
     private int w;
     private int r;
     private int p;

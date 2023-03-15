@@ -11,9 +11,9 @@ public class testEvaluationResultGetter {
 
         /*初始化GSS测试参数*/
         // the side length of matrix
-        int width = 2000;
+        int width = 10;
         // the length of hash addtress list
-        int range = 8;
+        int range = 4;
         // the number of candidate bucekt
         int p_num = 4;
         // the number of rooms 不能超过room的最大限制
@@ -23,27 +23,29 @@ public class testEvaluationResultGetter {
         // whether to use hash table
         boolean usehashtable = true;
         // the size of the table
-        int TableSize = 2000;
-
+        int TableSize = 100;
+        String fileName = "src/main/resources/out.wiki_talk_lv_tsv";
         GSS testGSS = new GSS(width, range, p_num, size, f_num, usehashtable, TableSize, HashFunction.hashfunctions.BOB1);
         ListGraph testListGraph = new ListGraph();
         //通过测试
-        // System.out.println(EvaluationResultGetter.getAverageRelativeError(testGSS,testListGraph,"src/main/resources/out.wiki_talk_ht"));
+      //  System.out.println(EvaluationResultGetter.getAverageRelativeError(testGSS,testListGraph,fileName));
 
         //通过测试
-        // System.out.println(EvaluationResultGetter.getAveragePrecision(testGSS,testListGraph,"src/main/resources/out.wiki_talk_ht"));
+      //  System.out.println(EvaluationResultGetter.getAveragePrecision(testGSS,testListGraph,fileName));
 
 
         //小数据集
         //  String fileName = "src/main/resources/out.wiki_talk_ht";
         //大一些的数据集
-        String fileName = "src/main/resources/out.wiki_talk_lv_tsv";
+
         //测试通过 负向优化 参数需要调整
-        EvaluationResultGetter.getCompressionRatio(testGSS, testListGraph, fileName);
+      //  EvaluationResultGetter.getCompressionRatio(testGSS, testListGraph, fileName);
         //测试通过
-        /// EvaluationResultGetter.getBufferPercentage(testGSS,fileName);
+     //   EvaluationResultGetter.getBufferPercentage(testGSS,fileName);
 
         // System.out.println( EvaluationResultGetter.getAveragePrecision(testGSS,testListGraph,fileName));
+
+        EvaluationResultGetter.getAllResults(testGSS,testListGraph,fileName);
 
     }
 }
