@@ -2,13 +2,6 @@ package GraphStreamSketch;
 
 import java.util.*;
 
-class ListEdge {
-    public int n;
-    public ListEdge next;
-    public int label;
-    public int weight;
-}
-
 public class ListGraph {
     private int n;
     private int max_d;

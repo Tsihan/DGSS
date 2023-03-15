@@ -23,10 +23,10 @@ public class testGSSFile {
         int TableSize = 2000;
 
         GSS testGSS = new GSS(width, range, p_num, size, f_num, usehashtable, TableSize, HashFunction.hashfunctions.BOB1);
-
-      //  String fileName = "src/main/resources/out.wiki_talk_ht";
+//小数据集
+        String fileName = "src/main/resources/out.wiki_talk_ht";
         //大一些的数据集
-        String fileName = "src/main/resources/out.wiki_talk_lv_tsv";
+        // String fileName = "src/main/resources/out.wiki_talk_lv_tsv";
         File file = new File(fileName);
         FileInputStream fis = new FileInputStream(file);
         InputStreamReader isr = new InputStreamReader(fis);
@@ -44,8 +44,8 @@ public class testGSSFile {
                 continue;
             }
             String[] temp = line.split("\\s+");
-            if(count == test){
-                System.out.println(temp[0]+"==="+temp[1]+"==="+Integer.parseInt(temp[2]));
+            if (count == test) {
+                System.out.println(temp[0] + "===" + temp[1] + "===" + Integer.parseInt(temp[2]));
             }
 
             testGSS.insert(temp[0], temp[1], Integer.parseInt(temp[2]));
@@ -76,7 +76,6 @@ public class testGSSFile {
 //        System.out.print("\n");
 
 
-
         System.out.print(testGSS.edgeQuery("1", "2"));//1
         System.out.print("\n");
         System.out.print(testGSS.query("1", "2"));//true 1
@@ -87,10 +86,12 @@ public class testGSSFile {
         System.out.print(testGSS.query("3", "2"));//true 1
         System.out.print("\n");
 
-        System.out.print(testGSS.edgeQuery("1", "7"));//0
+        System.out.print(testGSS.edgeQuery("26", "437"));//2
         System.out.print("\n");
-        System.out.print(testGSS.query("1", "7"));//true 1
+        System.out.print(testGSS.query("26", "437"));//true 1
         System.out.print("\n");
+
+
 
         testGSS.cleanupBuffer();
 
