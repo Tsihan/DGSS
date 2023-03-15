@@ -38,13 +38,16 @@ public class testGSSFileArray {
         String line;
         int count = -1;
 
+
+
         while ((line = br.readLine()) != null) {
             count++;
             //跳过首行
             if (count == 0) {
                 continue;
             }
-            String[] temp = line.split(" ");
+            String[] temp = line.split("\\s+");
+
             for(GSS gss: testGSSArray){
                 gss.insert(temp[0], temp[1], Integer.parseInt(temp[2]));
             }

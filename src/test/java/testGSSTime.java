@@ -44,7 +44,7 @@ public class testGSSTime {
             if (count == 0) {
                 continue;
             }
-            String[] temp = line.split(" ");
+            String[] temp = line.split("\\s+");
             testGSS.insert(temp[0], temp[1], Integer.parseInt(temp[2]));
 
         }

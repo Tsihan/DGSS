@@ -25,7 +25,7 @@ public class testListGraphTime {
             if (count == 0) {
                 continue;
             }
-            String[] temp = line.split(" ");
+            String[] temp = line.split("\\s+");
             myListGraph.insert(temp[0], temp[1], 1, Integer.parseInt(temp[2]));
 
         }
