@@ -19,9 +19,9 @@ public class testFTPDownloadDeserialization {
 
         // 设置以二进制流的方式传输
         ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
-        InputStream input =  ftpClient.retrieveFileStream("/home/qihan/DistributedGraphStreamSketch/GSS.dat");
+        InputStream input =  ftpClient.retrieveFileStream("/home/qihan/DistributedGraphStreamSketch/DGSS/src/main/resources/GSS.dat");
         ftpClient.disconnect();
-        OutputStream output = new FileOutputStream("src/main/resources/GSSRemote"+1+".dat");
+        OutputStream output = new FileOutputStream("src/main/resources/GSSRemote"+"wsl"+".dat");
 
         byte[] buffer = new byte[1024];
         int bytesRead;
@@ -35,12 +35,12 @@ public class testFTPDownloadDeserialization {
 
 
         GSS testGSS = null;
-        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("src/main/resources/GSSRemote"+1+".dat"))) {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("src/main/resources/GSSRemote"+"wsl"+".dat"))) {
             testGSS = (GSS) in.readObject();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-
+      //  System.out.println(testGSS.IPaddress);
         System.out.print("begin: ");
         System.out.print("\n");
 
