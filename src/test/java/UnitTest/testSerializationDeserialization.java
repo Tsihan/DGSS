@@ -1,3 +1,5 @@
+package UnitTest;
+
 import GraphStreamSketch.GSS;
 import GraphStreamSketch.HashFunction;
 
@@ -76,7 +78,7 @@ public class testSerializationDeserialization {
         testGSS.serialize("src/main/resources/GSS.dat");
         System.out.println(testGSS.IPaddress);
 //        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("src/main/resources/GSS.dat"))) {
-//            out.writeObject(testGSS);
+//            out.writeObject(UnitTest.testGSS);
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }

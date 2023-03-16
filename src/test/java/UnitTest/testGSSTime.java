@@ -1,3 +1,5 @@
+package UnitTest;
+
 import GraphStreamSketch.GSS;
 import GraphStreamSketch.HashFunction;
 
@@ -67,7 +69,7 @@ public class testGSSTime {
 
 
 //        ArrayList<String> testIDS = new ArrayList<String>();
-//        testGSS.nodeSuccessorQuery("1", testIDS);
+//        UnitTest.testGSS.nodeSuccessorQuery("1", testIDS);
 //        System.out.print("test nodeSuccessorQuery:");
 //        System.out.print("\n");
 //        for (String it : testIDS)

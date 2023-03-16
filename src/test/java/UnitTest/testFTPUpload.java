@@ -1,12 +1,15 @@
+package UnitTest;
+
 import FTPServer.FTPUtil;
 import org.apache.commons.net.ftp.FTPClient;
 
 import java.io.*;
 
-public class testFTPDownload {
+public class testFTPUpload {
     public static void main(String[] args) throws IOException {
-        //===============旧版测试
-        // FTPClient ftpClient = new FTPClient();
+        //===================旧版测试
+//        FTPClient ftpClient = new FTPClient();
+        //默认端口21
         int ftpPort = 21;
         String ftpUserName = "qihan";
         String ftpPassword = "zpy010408";
@@ -18,22 +21,16 @@ public class testFTPDownload {
 //
 //        // 设置以二进制流的方式传输
 //        ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
-//        InputStream input =  ftpClient.retrieveFileStream("/home/qihan/GraphStreamSketch4GraduationProject/wiki_talk_ht/meta.wiki_talk_ht");
-//        OutputStream output = new FileOutputStream("src/main/resources/test.txt");
+//        //编码方式为utf-8
+//        ftpClient.setControlEncoding("UTF-8");
 //
-//        byte[] buffer = new byte[1024];
-//        int bytesRead;
-//        while ((bytesRead = input.read(buffer) )!= -1){
-//            output.write(buffer,0,bytesRead);
-//        }
+//        InputStream input =  new FileInputStream("src/main/resources/test.txt") ;
+//
+//        ftpClient.storeFile("/home/qihan/GraphStreamSketch4GraduationProject/wiki_talk_ht/test.txt",input);
 //        input.close();
-//        output.flush();
-//        output.close();
 
         //===================新版测试
         FTPUtil testFTPUtil = new FTPUtil(ftpHost,ftpPort,ftpUserName,ftpPassword);
-        testFTPUtil.downloadRemoteSingleFile("/home/qihan/DistributedGraphStreamSketch/GSS.dat","src/main/resources/GSSremote.dat");
-        testFTPUtil.disconnect();
-
+        testFTPUtil.uploadLocalSingleFile("/home/qihan/DistributedGraphStreamSketch/GSS.dat","src/main/resources/GSS.dat");
     }
 }

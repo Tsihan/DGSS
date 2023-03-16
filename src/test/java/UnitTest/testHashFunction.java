@@ -1,3 +1,5 @@
+package UnitTest;
+
 import GraphStreamSketch.HashFunction;
 
 import java.nio.charset.StandardCharsets;

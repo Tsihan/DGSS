@@ -1,12 +1,14 @@
+package UnitTest;
+
 import FTPServer.FTPUtil;
 import org.apache.commons.net.ftp.FTPClient;
 
-import java.io.IOException;
+import java.io.*;
 
-public class testFTPDelete {
+public class testFTPDownload {
     public static void main(String[] args) throws IOException {
         //===============旧版测试
-       // FTPClient ftpClient = new FTPClient();
+        // FTPClient ftpClient = new FTPClient();
         int ftpPort = 21;
         String ftpUserName = "qihan";
         String ftpPassword = "zpy010408";
@@ -18,12 +20,22 @@ public class testFTPDelete {
 //
 //        // 设置以二进制流的方式传输
 //        ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
-//        //删除远程文件
-//        ftpClient.deleteFile("/home/qihan/GraphStreamSketch4GraduationProject/wiki_talk_ht/test.txt");
+//        InputStream input =  ftpClient.retrieveFileStream("/home/qihan/GraphStreamSketch4GraduationProject/wiki_talk_ht/meta.wiki_talk_ht");
+//        OutputStream output = new FileOutputStream("src/main/resources/test.txt");
+//
+//        byte[] buffer = new byte[1024];
+//        int bytesRead;
+//        while ((bytesRead = input.read(buffer) )!= -1){
+//            output.write(buffer,0,bytesRead);
+//        }
+//        input.close();
+//        output.flush();
+//        output.close();
 
         //===================新版测试
         FTPUtil testFTPUtil = new FTPUtil(ftpHost,ftpPort,ftpUserName,ftpPassword);
-        testFTPUtil.deleteRemoteSingleFile("/home/qihan/DistributedGraphStreamSketch/GSS.dat");
+        testFTPUtil.downloadRemoteSingleFile("/home/qihan/DistributedGraphStreamSketch/GSS.dat","src/main/resources/GSSremote.dat");
         testFTPUtil.disconnect();
+
     }
 }

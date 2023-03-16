@@ -1,3 +1,5 @@
+package UnitTest;
+
 import GraphStreamSketch.GSS;
 import GraphStreamSketch.HashFunction;
 import org.apache.commons.net.ftp.FTPClient;
@@ -40,7 +42,7 @@ public class testFTPDownloadDeserialization {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-      //  System.out.println(testGSS.IPaddress);
+      //  System.out.println(UnitTest.testGSS.IPaddress);
         System.out.print("begin: ");
         System.out.print("\n");
 

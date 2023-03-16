@@ -1,3 +1,5 @@
+package UnitTest;
+
 import GraphStreamSketch.GSS;
 import GraphStreamSketch.HashFunction;
 import GraphStreamSketch.ListGraph;
@@ -28,10 +30,10 @@ public class testEvaluationResultGetter {
         GSS testGSS = new GSS(width, range, p_num, size, f_num, usehashtable, TableSize, HashFunction.hashfunctions.BOB1);
         ListGraph testListGraph = new ListGraph();
         //通过测试
-      //  System.out.println(EvaluationResultGetter.getAverageRelativeError(testGSS,testListGraph,fileName));
+      //  System.out.println(EvaluationResultGetter.getAverageRelativeError(UnitTest.testGSS,UnitTest.testListGraph,fileName));
 
         //通过测试
-      //  System.out.println(EvaluationResultGetter.getAveragePrecision(testGSS,testListGraph,fileName));
+      //  System.out.println(EvaluationResultGetter.getAveragePrecision(UnitTest.testGSS,UnitTest.testListGraph,fileName));
 
 
         //小数据集
@@ -39,11 +41,11 @@ public class testEvaluationResultGetter {
         //大一些的数据集
 
         //测试通过 负向优化 参数需要调整
-      //  EvaluationResultGetter.getCompressionRatio(testGSS, testListGraph, fileName);
+      //  EvaluationResultGetter.getCompressionRatio(UnitTest.testGSS, UnitTest.testListGraph, fileName);
         //测试通过
-     //   EvaluationResultGetter.getBufferPercentage(testGSS,fileName);
+     //   EvaluationResultGetter.getBufferPercentage(UnitTest.testGSS,fileName);
 
-        // System.out.println( EvaluationResultGetter.getAveragePrecision(testGSS,testListGraph,fileName));
+        // System.out.println( EvaluationResultGetter.getAveragePrecision(UnitTest.testGSS,UnitTest.testListGraph,fileName));
 
         EvaluationResultGetter.getAllResults(testGSS,testListGraph,fileName);
 
