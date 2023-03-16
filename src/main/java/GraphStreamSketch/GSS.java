@@ -4,14 +4,14 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import org.apache.logging.log4j.core.config.plugins.convert.TypeConverters;
 
-import java.io.Serializable;
+import java.io.*;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-class basket implements Serializable{
+class basket implements Serializable {
     public short[] src = new short[DefineConstants.Roomnum];
     public short[] dst = new short[DefineConstants.Roomnum];
     public short[] weight = new short[DefineConstants.Roomnum];
@@ -65,7 +65,7 @@ public class GSS implements Serializable {
     public String IPaddress = InetAddress.getLocalHost().getHostAddress();
 
     //可以将ArrayList修改为Cache类型
-   // Cache<Integer, Short> cache = CacheBuilder.newBuilder().build();
+    // Cache<Integer, Short> cache = CacheBuilder.newBuilder().build();
 
     public ArrayList<linknode> buffer = new ArrayList<>();
 
@@ -75,7 +75,7 @@ public class GSS implements Serializable {
     public int edge_num;
 
 
-    public GSS(int width, int range, int p_num, int size, int f_num, boolean usehashtable, int TableSize,HashFunction.hashfunctions hashFunctionType) throws UnknownHostException {
+    public GSS(int width, int range, int p_num, int size, int f_num, boolean usehashtable, int TableSize, HashFunction.hashfunctions hashFunctionType) throws UnknownHostException {
         w = width;
         r = range; // r x r mapped baskets
         p = p_num; //candidate buckets
@@ -96,6 +96,30 @@ public class GSS implements Serializable {
         if (usehashtable) {
             mapTable.init(tablesize);
         }
+    }
+
+    //反序列化到内存
+    public GSS deserialize(String deserializeLocation) {
+        GSS temp = null;
+
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(deserializeLocation))) {
+            temp = (GSS) in.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return temp;
+
+    }
+
+    //序列化到文件
+    public void serialize(String serializeLocation) {
+        //将testGSS的内容全部写到指定文件中去
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(serializeLocation))) {
+            out.writeObject(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void cleanupBuffer() {
@@ -769,7 +793,7 @@ public class GSS implements Serializable {
      */
     public int nodeDegreeQuery(String s1, int type) {
         int degree = 0;
-        int hash1 = HashFunction.CalculateHashValue(s1.getBytes(StandardCharsets.UTF_8), s1.length(),hft);
+        int hash1 = HashFunction.CalculateHashValue(s1.getBytes(StandardCharsets.UTF_8), s1.length(), hft);
         int tmp = (int) (Math.pow(2, f) - 1);
         short g1 = (short) (hash1 & tmp);
 

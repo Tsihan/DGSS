@@ -73,18 +73,20 @@ public class testSerializationDeserialization {
         System.out.print("\n");
 
        //将testGSS的内容全部写到GSS.dat文件中去
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("src/main/resources/GSS.dat"))) {
-            out.writeObject(testGSS);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        testGSS.serialize("src/main/resources/GSS.dat");
+        System.out.println(testGSS.IPaddress);
+//        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("src/main/resources/GSS.dat"))) {
+//            out.writeObject(testGSS);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
-        GSS testGSS1 = null;
-        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("src/main/resources/GSS.dat"))) {
-            testGSS1 = (GSS) in.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        GSS testGSS1 = testGSS.deserialize("src/main/resources/GSS.dat");
+//        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("src/main/resources/GSS.dat"))) {
+//            testGSS1 = (GSS) in.readObject();
+//        } catch (IOException | ClassNotFoundException e) {
+//            e.printStackTrace();
+//        }
 
 
         System.out.print("begin: ");

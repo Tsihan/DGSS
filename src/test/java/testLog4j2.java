@@ -2,23 +2,23 @@ import FTPServer.FTPUtil;
 
 import java.io.InputStream;
 
-import static FTPServer.FTPUtil.logger;
+
 
 public class testLog4j2 {
     public static void main(String[] args) {
-        int ftpPort = 0;
-        String ftpUserName = "";
-        String ftpPassword = "";
+        int ftpPort = 21;
+        String ftpUserName = "qihan";
+        String ftpPassword = "zpy010408";
         String ftpHost = "";
-        String ftpPath = "";
-        String writeTempFielPath = "";
+
+        FTPUtil testFTPUtil = new FTPUtil(ftpHost,ftpPort,ftpUserName,ftpPassword);
         try {
             InputStream in = FTPUtil.class.getClassLoader().getResourceAsStream("log4j2.xml");
             if (in == null) {
                 System.out.println("1111");
-                logger.info("配置文件env.properties读取失败!");
+                testFTPUtil.logger.info("配置文件env.properties读取失败!");
             } else {
-                logger.info("配置文件env.properties读取成功!");
+                testFTPUtil.logger.info("配置文件env.properties读取成功!");
                 System.out.println("2222");
 
             }

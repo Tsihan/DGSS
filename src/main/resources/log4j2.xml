@@ -4,7 +4,7 @@
     <properties>
         <!-- log打印到本地的路径 -->
         <property name="LOG_HOME">src/main/resources/Logs/</property>
-        <property name="ERROR_LOG_FILE_NAME">testhh</property>
+        <property name="ERROR_LOG_FILE_NAME">trace</property>
     </properties>
 
     <Appenders>
