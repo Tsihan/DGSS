@@ -3,6 +3,7 @@ package FTPServer;
 import java.io.*;
 import java.net.SocketException;
 
+import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
 import org.apache.logging.log4j.LogManager;
@@ -97,7 +98,7 @@ public class FTPUtil {
     public void uploadLocalSingleFile(String remoteAbsoluteFileName, String localFileName) throws IOException {
         // 设置PassiveMode传输
         FtpClient.enterLocalPassiveMode();
-
+        // FtpClient.setFileTransferMode(FTP.STREAM_TRANSFER_MODE);
         // 设置以二进制流的方式传输
         FtpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
         //编码方式为utf-8
@@ -105,7 +106,18 @@ public class FTPUtil {
 
         InputStream input = new FileInputStream(localFileName);
 
-        FtpClient.storeFile(remoteAbsoluteFileName, input);
+      //  System.out.println(FtpClient.printWorkingDirectory());
+
+
+        if (FtpClient.storeFile(remoteAbsoluteFileName, input)) {
+            logger.info("本地文件上传成功！");
+        } else {
+            logger.info("本地文件上传失败！");
+            logger.info(FtpClient.getReplyString());
+            System.out.println(this.FtpHost);
+            System.out.println(FtpClient.getReplyString());
+        }
+
         input.close();
     }
 

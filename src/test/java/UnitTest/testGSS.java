@@ -1,3 +1,5 @@
+package UnitTest;
+
 import GraphStreamSketch.GSS;
 import GraphStreamSketch.HashFunction;
 
