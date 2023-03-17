@@ -180,10 +180,9 @@ public class finalTestClient {
 
         //todo====去重后进行指标获取  需要先进行数学分析，比如期望 偏差等 将GSS和ListGraph的性能进行对比
         ListGraph testListGraph = new ListGraph();
-        for (int i = 0; i < copyNum; i++) {
+        EvaluationResultGetter.getAllDistributedResults(GSSs,testListGraph,masterFileName,dataNodeNum);
 
-            EvaluationResultGetter.getAllDistributedResults(GSSs.get(i),testListGraph,masterFileName);
-        }
+
 
 
     }

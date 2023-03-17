@@ -1,16 +1,17 @@
 package ResultEvaluation;
 
 import GraphStreamSketch.GSS;
-import GraphStreamSketch.ListEdge;
 import GraphStreamSketch.ListGraph;
 import org.apache.lucene.util.RamUsageEstimator;
 
 import java.io.*;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+
+import static com.google.common.math.BigIntegerMath.factorial;
 
 
 public class EvaluationResultGetter {
@@ -253,11 +254,29 @@ public class EvaluationResultGetter {
 
     }
 
-    public static void getAllDistributedResults(GSS gss, ListGraph listgraph, String fileName) throws IOException {
+    public static float combination(int n, int m) {
+        return (factorial(n).divide(factorial(m).multiply(factorial(n - m)))).floatValue();
+    }
+
+    public static float getRevisionFactor(int dataNodeNum) {
+        int m = dataNodeNum;
+        int n = dataNodeNum / 2 + (dataNodeNum % 2 != 0 ? 1 : 0);
+        float sum = 0;
+        for (int i = 1; i <= n; i++) {
+            sum += i * combination(n, i) * combination(m, n - i) / combination(m, i);
+        }
+
+        return sum;
+
+    }
+
+    public static void getAllDistributedResults(ArrayList<GSS> gsses, ListGraph listgraph, String fileName, int dataNodeNum) throws IOException {
         File file = new File(fileName);
         FileInputStream fis = new FileInputStream(file);
         InputStreamReader isr = new InputStreamReader(fis);
         BufferedReader br = new BufferedReader(isr);
+        //备份数目，恰过半数
+        int copyNum = dataNodeNum / 2 + (dataNodeNum % 2 != 0 ? 1 : 0);
 
         String line;
         int count = -1;
@@ -276,23 +295,75 @@ public class EvaluationResultGetter {
         }
         br.close();
 
-        int Num4DeduplicatedEdges = getDeduplicatedEdges(fileName).size();
-        int Num4BufferedEdges = gss.buffer.size();
-        System.out.println("======buffer usage=====");
-        System.out.println(Num4DeduplicatedEdges);
-        System.out.println(Num4BufferedEdges);
-        System.out.println((float) Num4BufferedEdges / (float) Num4DeduplicatedEdges);
-        System.out.println("======Compression ratio=====");
-        String size4gss = RamUsageEstimator.humanSizeOf(gss);
-        long size4gss1 = RamUsageEstimator.sizeOf(gss);
-        String size4listgraph = RamUsageEstimator.humanSizeOf(listgraph);
-        long size4listgraph1 = RamUsageEstimator.sizeOf(listgraph);
-        System.out.println(size4gss);
-        System.out.println(size4listgraph);
-        System.out.println(1 - ((float) size4gss1 / (float) size4listgraph1));
+
+        for (GSS gss : gsses) {
+            int Num4DeduplicatedEdges = getDeduplicatedEdges(fileName).size();
+            int Num4BufferedEdges = gss.buffer.size();
+            System.out.println("======buffer usage=====");
+            System.out.println(Num4DeduplicatedEdges);
+            System.out.println(Num4BufferedEdges);
+            System.out.println((float) Num4BufferedEdges / (float) Num4DeduplicatedEdges);
+            System.out.println("======Compression ratio=====");
+            String size4gss = RamUsageEstimator.humanSizeOf(gss);
+            long size4gss1 = RamUsageEstimator.sizeOf(gss);
+            String size4listgraph = RamUsageEstimator.humanSizeOf(listgraph);
+            long size4listgraph1 = RamUsageEstimator.sizeOf(listgraph);
+            System.out.println(size4gss);
+            System.out.println(size4listgraph);
+            System.out.println(1 - ((float) size4gss1 / (float) size4listgraph1));
+            System.out.println("======AP=====");
+            Set<String> DeduplicatedNodes = getDeduplicatedNodes(fileName);
+            float SumPrecision = 0;
+            float NodeNum = DeduplicatedNodes.size();
+            //最终返回结果
+            float AP = 0;
+            for (String node : DeduplicatedNodes) {
+
+                //  System.out.println(edges[0]+"==="+edges[1]);
+                int trueValue = listgraph.nodequery(node, 1, 0);
+
+                int predicateValue = gss.nodeDegreeQuery(node, 0);
+                //避免出现除数为0的情况
+                int usedTrueValue = trueValue + 1;
+                int usedPredicateValue = predicateValue + 1;
+
+                if (usedPredicateValue >= usedTrueValue) {
+                    SumPrecision += (float) usedTrueValue / (float) usedPredicateValue;
+                } else {
+                    SumPrecision += (float) usedPredicateValue / (float) usedTrueValue;
+                }
+
+            }
+            AP = SumPrecision / NodeNum;
+            System.out.println(AP);
+            System.out.println("======ARE=====");
+            Set<String> DeduplicatedEdges = getDeduplicatedEdges(fileName);
+            float SumRelativeError = 0;
+            float EdgeNum = DeduplicatedEdges.size();
+            //最终返回结果
+            float ARE = 0;
+            for (String pair : DeduplicatedEdges) {
+                String[] edges = pair.split("\\s+");
+                //  System.out.println(edges[0]+"==="+edges[1]);
+                float trueValue = listgraph.query(edges[0], edges[1], 1);
+                float predicateValue = gss.edgeQuery(edges[0], edges[1]);
+                SumRelativeError += Math.abs((predicateValue + 1) / (trueValue + 1) - 1);
+            }
+            ARE = SumRelativeError / EdgeNum;
+            System.out.println(ARE);
+        }
+
+
+        //=======修正ARE以及AP之后的结果=======
+        System.out.println("====After revision====");
+
+
+        float SumPrecision = 0;
+        float SumRelativeError = 0;
+
         System.out.println("======AP=====");
         Set<String> DeduplicatedNodes = getDeduplicatedNodes(fileName);
-        float SumPrecision = 0;
+
         float NodeNum = DeduplicatedNodes.size();
         //最终返回结果
         float AP = 0;
@@ -300,24 +371,21 @@ public class EvaluationResultGetter {
 
             //  System.out.println(edges[0]+"==="+edges[1]);
             int trueValue = listgraph.nodequery(node, 1, 0);
+            //====预测值使用平均值的向上取整
+            float predicateValue = 0;
+            //小循环 取平均值向上取整
+            for (GSS temp : gsses) {
+                predicateValue += temp.nodeDegreeQuery(node, 0);
+            }
 
-            int predicateValue = gss.nodeDegreeQuery(node, 0);
+            predicateValue = predicateValue / getRevisionFactor(dataNodeNum);
+            //predicateValue = (int) Math.ceil((float) predicateValue / (float) copyNum);
+
             //避免出现除数为0的情况
             int usedTrueValue = trueValue + 1;
-            int usedPredicateValue = predicateValue + 1;
-//            if (trueValue == 0) {
-//                if (predicateValue == 0) {
-//                    SumPrecision += 1;
-//                }
-//            } else {
-//                if(predicateValue == 0){
-//
-//                }else {
-//                    SumPrecision += (float) trueValue / (float) predicateValue;
-//                }
-//                //分布式的情境预测值可能为0
-//
-//            }
+
+            float usedPredicateValue = predicateValue + 1;
+
             if (usedPredicateValue >= usedTrueValue) {
                 SumPrecision += (float) usedTrueValue / (float) usedPredicateValue;
             } else {
@@ -327,9 +395,11 @@ public class EvaluationResultGetter {
         }
         AP = SumPrecision / NodeNum;
         System.out.println(AP);
+
+
         System.out.println("======ARE=====");
         Set<String> DeduplicatedEdges = getDeduplicatedEdges(fileName);
-        float SumRelativeError = 0;
+
         float EdgeNum = DeduplicatedEdges.size();
         //最终返回结果
         float ARE = 0;
@@ -337,7 +407,16 @@ public class EvaluationResultGetter {
             String[] edges = pair.split("\\s+");
             //  System.out.println(edges[0]+"==="+edges[1]);
             float trueValue = listgraph.query(edges[0], edges[1], 1);
-            float predicateValue = gss.edgeQuery(edges[0], edges[1]);
+
+            float predicateValue = 0;
+            //小循环
+            for (GSS temp : gsses) {
+                predicateValue += temp.edgeQuery(edges[0], edges[1]);
+            }
+            predicateValue = (int) Math.ceil((float) predicateValue / (float) copyNum);
+            // predicateValue = predicateValue / getRevisionFactor(dataNodeNum);
+
+
             SumRelativeError += Math.abs((predicateValue + 1) / (trueValue + 1) - 1);
         }
         ARE = SumRelativeError / EdgeNum;
