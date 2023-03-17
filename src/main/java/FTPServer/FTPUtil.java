@@ -19,13 +19,24 @@ public class FTPUtil {
     public String FtpPassword;
     public FTPClient FtpClient;
 
+    public int SSHPort;
+    // "/home/ecs-user/DGSS/src/main/resources/GSS.dat"
+    // "/home/qihan/DistributedGraphStreamSketch/DGSS/src/main/resources/GSS.dat"
+
+    public String DeserializedRemoteFileName;
+    // "src/main/resources/GSSremote.dat"
+    public String DeserializedLocalFileName;
+
     //通过测试
-    public FTPUtil(String ftpHost, int ftpPort, String ftpUserName, String ftpPassword) {
+    public FTPUtil(String ftpHost, int ftpPort, String ftpUserName, String ftpPassword, int sshPort,
+                   String deserializedRemoteFileName, String deserializedLocalFileName) {
         FtpHost = ftpHost;
         FtpPort = ftpPort;
         FtpUserName = ftpUserName;
         FtpPassword = ftpPassword;
-
+        SSHPort = sshPort;
+        DeserializedRemoteFileName = deserializedRemoteFileName;
+        DeserializedLocalFileName = deserializedLocalFileName;
 
         try {
             FtpClient = new FTPClient();
@@ -95,7 +106,7 @@ public class FTPUtil {
     }
 
     //通过测试
-    public void uploadLocalSingleFile(String remoteAbsoluteFileName, String localFileName) throws IOException {
+    public boolean uploadLocalSingleFile(String remoteAbsoluteFileName, String localFileName) throws IOException {
         // 设置PassiveMode传输
         FtpClient.enterLocalPassiveMode();
         // FtpClient.setFileTransferMode(FTP.STREAM_TRANSFER_MODE);
@@ -106,19 +117,24 @@ public class FTPUtil {
 
         InputStream input = new FileInputStream(localFileName);
 
-      //  System.out.println(FtpClient.printWorkingDirectory());
+        //  System.out.println(FtpClient.printWorkingDirectory());
 
+        //FtpClient.logout();
 
         if (FtpClient.storeFile(remoteAbsoluteFileName, input)) {
             logger.info("本地文件上传成功！");
+
+            return true;
         } else {
             logger.info("本地文件上传失败！");
             logger.info(FtpClient.getReplyString());
+            input.close();
             System.out.println(this.FtpHost);
             System.out.println(FtpClient.getReplyString());
+            return false;
         }
 
-        input.close();
+
     }
 
 

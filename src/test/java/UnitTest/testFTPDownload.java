@@ -33,8 +33,8 @@ public class testFTPDownload {
 //        output.close();
 
         //===================新版测试
-        FTPUtil testFTPUtil = new FTPUtil(ftpHost,ftpPort,ftpUserName,ftpPassword);
-        testFTPUtil.downloadRemoteSingleFile("/home/qihan/DistributedGraphStreamSketch/GSS.dat","src/main/resources/GSSremote.dat");
+        FTPUtil testFTPUtil = new FTPUtil(ftpHost, ftpPort, ftpUserName, ftpPassword, 2222, "/home/qihan/DistributedGraphStreamSketch/GSS.dat", "src/main/resources/GSSremote.dat");
+        testFTPUtil.downloadRemoteSingleFile("/home/qihan/DistributedGraphStreamSketch/GSS.dat", "src/main/resources/GSSremote.dat");
         testFTPUtil.disconnect();
 
     }

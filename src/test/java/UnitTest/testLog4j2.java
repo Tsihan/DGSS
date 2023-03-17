@@ -5,7 +5,6 @@ import FTPServer.FTPUtil;
 import java.io.InputStream;
 
 
-
 public class testLog4j2 {
     public static void main(String[] args) {
         int ftpPort = 21;
@@ -13,7 +12,7 @@ public class testLog4j2 {
         String ftpPassword = "zpy010408";
         String ftpHost = "";
 
-        FTPUtil testFTPUtil = new FTPUtil(ftpHost,ftpPort,ftpUserName,ftpPassword);
+        FTPUtil testFTPUtil = new FTPUtil(ftpHost, ftpPort, ftpUserName, ftpPassword, 2222, "", "");
         try {
             InputStream in = FTPUtil.class.getClassLoader().getResourceAsStream("log4j2.xml");
             if (in == null) {
