@@ -27,6 +27,40 @@ public class FTPUtil {
     // "src/main/resources/GSSremote.dat"
     public String DeserializedLocalFileName;
 
+    public String ShellCmd;
+    //  /usr/bin/env /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java -cp /tmp/cp_b4wz4y2kn5fq5krih5odh69ml.jar IntegrationTest.finalTestServer
+
+    //通过测试
+    public FTPUtil(String ftpHost, int ftpPort, String ftpUserName, String ftpPassword, int sshPort,
+                   String deserializedRemoteFileName, String deserializedLocalFileName, String shellCmd) {
+        FtpHost = ftpHost;
+        FtpPort = ftpPort;
+        FtpUserName = ftpUserName;
+        FtpPassword = ftpPassword;
+        SSHPort = sshPort;
+        DeserializedRemoteFileName = deserializedRemoteFileName;
+        DeserializedLocalFileName = deserializedLocalFileName;
+        ShellCmd = shellCmd;
+        try {
+            FtpClient = new FTPClient();
+            FtpClient.connect(ftpHost, ftpPort);// 连接FTP服务器
+            FtpClient.login(ftpUserName, ftpPassword);// 登陆FTP服务器
+            if (!FTPReply.isPositiveCompletion(FtpClient.getReplyCode())) {
+                logger.info("未连接到FTP,用户名或密码错误!");
+                FtpClient.disconnect();
+            } else {
+                logger.info("FTP连接成功!");
+            }
+        } catch (SocketException e) {
+            e.printStackTrace();
+            logger.info("FTP的IP地址可能错误，请正确配置。");
+        } catch (IOException e) {
+            e.printStackTrace();
+            logger.info("FTP的端口错误,请正确配置。");
+        }
+
+    }
+
     //通过测试
     public FTPUtil(String ftpHost, int ftpPort, String ftpUserName, String ftpPassword, int sshPort,
                    String deserializedRemoteFileName, String deserializedLocalFileName) {

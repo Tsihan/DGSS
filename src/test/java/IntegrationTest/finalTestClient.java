@@ -36,7 +36,9 @@ public class finalTestClient {
         String ftpPassword1 = "zpy010408";
         String ftpHost1 = "127.0.0.1";
         FTPUtil testFTPUtil1 = new FTPUtil(ftpHost1, ftpPort1, ftpUserName1, ftpPassword1, sshPort1,
-                "/home/qihan/DistributedGraphStreamSketch/DGSS/src/main/resources/GSS.dat", "src/main/resources/GSSremote1.dat");
+                "/home/qihan/DistributedGraphStreamSketch/DGSS/src/main/resources/GSS.dat",
+                "src/main/resources/GSSremote1.dat",
+                "/usr/bin/env /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java -cp /tmp/cp_b4wz4y2kn5fq5krih5odh69ml.jar IntegrationTest.finalTestServer");
 
 
         //GDB4
@@ -46,7 +48,9 @@ public class finalTestClient {
         String ftpPassword2 = "Zpy010408";
         String ftpHost2 = "47.108.220.140";
         FTPUtil testFTPUtil2 = new FTPUtil(ftpHost2, ftpPort2, ftpUserName2, ftpPassword2, sshPort2,
-                "/home/ecs-user/DGSS/src/main/resources/GSS.dat", "src/main/resources/GSSremote2.dat");
+                "/home/ecs-user/DGSS/src/main/resources/GSS.dat",
+                "src/main/resources/GSSremote2.dat",
+                "/usr/bin/env /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java -cp /tmp/cp_1s29d2ag01vnqg4wunvgt7atn.jar IntegrationTest.finalTestServer");
 
 
         //GDB3
@@ -56,7 +60,9 @@ public class finalTestClient {
         String ftpPassword3 = "Zpy010408";
         String ftpHost3 = "47.108.80.65";
         FTPUtil testFTPUtil3 = new FTPUtil(ftpHost3, ftpPort3, ftpUserName3, ftpPassword3, sshPort3,
-                "/home/ecs-user/DGSS/src/main/resources/GSS.dat", "src/main/resources/GSSremote3.dat");
+                "/home/ecs-user/DGSS/src/main/resources/GSS.dat",
+                "src/main/resources/GSSremote3.dat",
+                "/usr/bin/env /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java -cp /tmp/cp_1s29d2ag01vnqg4wunvgt7atn.jar IntegrationTest.finalTestServer");
 
 
         //GDB2
@@ -66,7 +72,9 @@ public class finalTestClient {
         String ftpPassword4 = "Zpy010408";
         String ftpHost4 = "47.108.30.249";
         FTPUtil testFTPUtil4 = new FTPUtil(ftpHost4, ftpPort4, ftpUserName4, ftpPassword4, sshPort4,
-                "/home/ecs-user/DGSS/src/main/resources/GSS.dat", "src/main/resources/GSSremote4.dat");
+                "/home/ecs-user/DGSS/src/main/resources/GSS.dat",
+                "src/main/resources/GSSremote4.dat",
+                "/usr/bin/env /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java -cp /tmp/cp_1s29d2ag01vnqg4wunvgt7atn.jar IntegrationTest.finalTestServer");
 
         //  /home/ecs-user/DGSS/src/main/resources/out.wiki_talk_ht
         //GDB1
@@ -76,7 +84,9 @@ public class finalTestClient {
         String ftpPassword5 = "Zpy010408";
         String ftpHost5 = "47.108.175.71";
         FTPUtil testFTPUtil5 = new FTPUtil(ftpHost5, ftpPort5, ftpUserName5, ftpPassword5, sshPort5,
-                "/home/ecs-user/DGSS/src/main/resources/GSS.dat", "src/main/resources/GSSremote5.dat");
+                "/home/ecs-user/DGSS/src/main/resources/GSS.dat",
+                "src/main/resources/GSSremote5.dat",
+                "/usr/bin/env /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java -cp /tmp/cp_1s29d2ag01vnqg4wunvgt7atn.jar IntegrationTest.finalTestServer");
 
 
         //接收来自至少超过半数的节点通知已收到备份数据并成功完成DGSS，将GSS序列化到服务器
@@ -125,13 +135,11 @@ public class finalTestClient {
         //如果满足要求
         if (uploadedFTPUtils.size() >= copyNum) {
             for (int i = 0; i < copyNum; i++) {
-                String cmd = "ls -1";
-                // String cmd = "pwd";
-                //默认会在该用户目录下
-
+//                String cmd = "ls -1";
+//                 String cmd = "pwd";
                 SSHUtil shell = new SSHUtil(uploadedFTPUtils.get(i).FtpHost, uploadedFTPUtils.get(i).FtpUserName, uploadedFTPUtils.get(i).FtpPassword, uploadedFTPUtils.get(i).SSHPort);
-                String execLog = shell.execCommand(cmd);
-                System.out.println(execLog);
+//                String execLog = shell.execCommand(cmd);
+//                System.out.println(execLog);
             }
         } else {
             System.out.println("已上传节点数不满足要求！");
@@ -142,7 +150,7 @@ public class finalTestClient {
         // 新建shell对象，远程执行每一个服务器上的finalTestServer
         for (int i = 0; i < copyNum; i++) {
             FTPUtil temp = uploadedFTPUtils.get(i);
-            String cmd = "";
+            String cmd = temp.ShellCmd;
 
             SSHUtil shell = new SSHUtil(temp.FtpHost, temp.FtpUserName, temp.FtpPassword, temp.SSHPort);
             String execLog = shell.execCommand(cmd);
@@ -150,7 +158,7 @@ public class finalTestClient {
         }
 
 
-        //todo====获取全部已经完成的GSS序列化对象，并将其反序列化到内存
+        //====获取全部已经完成的GSS序列化对象，并将其反序列化到内存
         ArrayList<GSS> GSSs = new ArrayList<>();
         for (int i = 0; i < copyNum; i++) {
             //将远程序列化对象文件下载到本地
@@ -168,8 +176,7 @@ public class finalTestClient {
             GSSs.add(testGSS);
         }
 
-        //todo====去重后进行指标获取
-
+        //todo====去重后进行指标获取  需要先进行数学分析，比如期望 偏差等 将GSS和ListGraph的性能进行对比
 
     }
 }
