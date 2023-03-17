@@ -30,7 +30,7 @@ public class testFTPUpload {
 //        input.close();
 
         //===================新版测试
-        FTPUtil testFTPUtil = new FTPUtil(ftpHost,ftpPort,ftpUserName,ftpPassword);
-        testFTPUtil.uploadLocalSingleFile("/home/qihan/DistributedGraphStreamSketch/GSS.dat","src/main/resources/GSS.dat");
+        FTPUtil testFTPUtil = new FTPUtil(ftpHost, ftpPort, ftpUserName, ftpPassword, 2222, "/home/qihan/DistributedGraphStreamSketch/GSS.dat", "src/main/resources/GSS.dat");
+        testFTPUtil.uploadLocalSingleFile("/home/qihan/DistributedGraphStreamSketch/GSS.dat", "src/main/resources/GSS.dat");
     }
 }

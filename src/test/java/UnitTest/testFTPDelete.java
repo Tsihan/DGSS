@@ -8,7 +8,7 @@ import java.io.IOException;
 public class testFTPDelete {
     public static void main(String[] args) throws IOException {
         //===============旧版测试
-       // FTPClient ftpClient = new FTPClient();
+        // FTPClient ftpClient = new FTPClient();
         int ftpPort = 21;
         String ftpUserName = "qihan";
         String ftpPassword = "zpy010408";
@@ -24,7 +24,7 @@ public class testFTPDelete {
 //        ftpClient.deleteFile("/home/qihan/GraphStreamSketch4GraduationProject/wiki_talk_ht/test.txt");
 
         //===================新版测试
-        FTPUtil testFTPUtil = new FTPUtil(ftpHost,ftpPort,ftpUserName,ftpPassword);
+        FTPUtil testFTPUtil = new FTPUtil(ftpHost, ftpPort, ftpUserName, ftpPassword, 2222, "/home/qihan/DistributedGraphStreamSketch/GSS.dat", "");
         testFTPUtil.deleteRemoteSingleFile("/home/qihan/DistributedGraphStreamSketch/GSS.dat");
         testFTPUtil.disconnect();
     }
