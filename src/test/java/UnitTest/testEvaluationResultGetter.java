@@ -21,7 +21,7 @@ public class testEvaluationResultGetter {
         // the number of rooms 不能超过room的最大限制
         int size = 2;
         // finger print lenth
-        int f_num = 8;
+        int f_num = 12;
         // whether to use hash table
         boolean usehashtable = true;
         // the size of the table

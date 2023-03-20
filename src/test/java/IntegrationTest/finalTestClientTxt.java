@@ -26,7 +26,7 @@ public class finalTestClientTxt {
         String masterFileName = "src/main/resources/out.wiki_talk_ht";
 
         //修正之后将测试集同样上传到服务器
-        String testSetFileName ="src/main/resources/out.wiki_talk_htTestSet";
+        String testSetFileName = "src/main/resources/out.wiki_talk_htTestSet";
         DataBackup test = new DataBackup(dataNodeNum, dataNodeIps, dataNodeFileNames, masterFileName);
         //====产生备份后的数据====
         test.generateBackUpData();
@@ -41,9 +41,9 @@ public class finalTestClientTxt {
         String ftpPassword1 = "zpy010408";
         String ftpHost1 = "127.0.0.1";
         FTPUtil testFTPUtil1 = new FTPUtil(ftpHost1, ftpPort1, ftpUserName1, ftpPassword1, sshPort1,
-                "/home/qihan/DistributedGraphStreamSketch/DGSS/src/main/resources/GSS.TestSetResult",
+                "/home/qihan/DistributedGraphStreamSketch/DGSS/src/main/resources/out.wiki_talk_htTestSetResult",
                 "src/main/resources/GSSremote1.TestSetResult",
-                "/usr/bin/env /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java -cp /tmp/cp_b4wz4y2kn5fq5krih5odh69ml.jar IntegrationTest.finalTestServer");
+                "/usr/bin/env /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java -cp /tmp/cp_b4wz4y2kn5fq5krih5odh69ml.jar IntegrationTest.finalTestServerTxt");
 
 
         //GDB4
@@ -53,9 +53,9 @@ public class finalTestClientTxt {
         String ftpPassword2 = "Zpy010408";
         String ftpHost2 = "47.108.220.140";
         FTPUtil testFTPUtil2 = new FTPUtil(ftpHost2, ftpPort2, ftpUserName2, ftpPassword2, sshPort2,
-                "/home/ecs-user/DGSS/src/main/resources/GSS.TestSetResult",
+                "/home/ecs-user/DGSS/src/main/resources/out.wiki_talk_htTestSetResult",
                 "src/main/resources/GSSremote2.TestSetResult",
-                "/usr/bin/env /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java -cp /tmp/cp_1s29d2ag01vnqg4wunvgt7atn.jar IntegrationTest.finalTestServer");
+                "/usr/bin/env /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java -cp /tmp/cp_1s29d2ag01vnqg4wunvgt7atn.jar IntegrationTest.finalTestServerTxt");
 
 
         //GDB3
@@ -65,9 +65,9 @@ public class finalTestClientTxt {
         String ftpPassword3 = "Zpy010408";
         String ftpHost3 = "47.108.80.65";
         FTPUtil testFTPUtil3 = new FTPUtil(ftpHost3, ftpPort3, ftpUserName3, ftpPassword3, sshPort3,
-                "/home/ecs-user/DGSS/src/main/resources/GSS.TestSetResult",
+                "/home/ecs-user/DGSS/src/main/resources/out.wiki_talk_htTestSetResult",
                 "src/main/resources/GSSremote3.TestSetResult",
-                "/usr/bin/env /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java -cp /tmp/cp_1s29d2ag01vnqg4wunvgt7atn.jar IntegrationTest.finalTestServer");
+                "/usr/bin/env /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java -cp /tmp/cp_1s29d2ag01vnqg4wunvgt7atn.jar IntegrationTest.finalTestServerTxt");
 
 
         //GDB2
@@ -77,9 +77,9 @@ public class finalTestClientTxt {
         String ftpPassword4 = "Zpy010408";
         String ftpHost4 = "47.108.30.249";
         FTPUtil testFTPUtil4 = new FTPUtil(ftpHost4, ftpPort4, ftpUserName4, ftpPassword4, sshPort4,
-                "/home/ecs-user/DGSS/src/main/resources/GSS.TestSetResult",
+                "/home/ecs-user/DGSS/src/main/resources/out.wiki_talk_htTestSetResult",
                 "src/main/resources/GSSremote4.TestSetResult",
-                "/usr/bin/env /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java -cp /tmp/cp_1s29d2ag01vnqg4wunvgt7atn.jar IntegrationTest.finalTestServer");
+                "/usr/bin/env /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java -cp /tmp/cp_1s29d2ag01vnqg4wunvgt7atn.jar IntegrationTest.finalTestServerTxt");
 
         //  /home/ecs-user/DGSS/src/main/resources/out.wiki_talk_ht
         //GDB1
@@ -89,9 +89,9 @@ public class finalTestClientTxt {
         String ftpPassword5 = "Zpy010408";
         String ftpHost5 = "47.108.175.71";
         FTPUtil testFTPUtil5 = new FTPUtil(ftpHost5, ftpPort5, ftpUserName5, ftpPassword5, sshPort5,
-                "/home/ecs-user/DGSS/src/main/resources/GSS.TestSetResult",
+                "/home/ecs-user/DGSS/src/main/resources/out.wiki_talk_htTestSetResult",
                 "src/main/resources/GSSremote5.TestSetResult",
-                "/usr/bin/env /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java -cp /tmp/cp_1s29d2ag01vnqg4wunvgt7atn.jar IntegrationTest.finalTestServer");
+                "/usr/bin/env /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java -cp /tmp/cp_1s29d2ag01vnqg4wunvgt7atn.jar IntegrationTest.finalTestServerTxt");
 
 
         //接收来自至少超过半数的节点通知已收到备份数据并成功完成DGSS，将GSS序列化到服务器
@@ -111,17 +111,16 @@ public class finalTestClientTxt {
             uploadedFTPUtils.add(testFTPUtil1);
         }
 
-         temp1 = testFTPUtil2.uploadLocalSingleFile("/home/ecs-user/DGSS/src/main/resources/out.wiki_talk_ht2",
+        temp1 = testFTPUtil2.uploadLocalSingleFile("/home/ecs-user/DGSS/src/main/resources/out.wiki_talk_ht2",
                 "src/main/resources/out.wiki_talk_ht2");
         temp2 = testFTPUtil2.uploadLocalSingleFile("/home/ecs-user/DGSS/src/main/resources/out.wiki_talk_htTestSet",
                 "src/main/resources/out.wiki_talk_htTestSet");
         uploaded[1] = (temp1 && temp2);
 
-//        uploaded[1] = testFTPUtil2.uploadLocalSingleFile("/home/ecs-user/DGSS/src/main/resources/out.wiki_talk_ht2",
-//                "src/main/resources/out.wiki_talk_ht2");
+
         if (uploaded[1]) {
 
-            uploadedFTPUtils.add(testFTPUtil2);
+          //  uploadedFTPUtils.add(testFTPUtil2);
         }
 
 
@@ -132,7 +131,7 @@ public class finalTestClientTxt {
         uploaded[2] = (temp1 && temp2);
         if (uploaded[2]) {
 
-            uploadedFTPUtils.add(testFTPUtil3);
+         uploadedFTPUtils.add(testFTPUtil3);
         }
 
 
@@ -143,7 +142,7 @@ public class finalTestClientTxt {
         uploaded[3] = (temp1 && temp2);
         if (uploaded[3]) {
 
-            uploadedFTPUtils.add(testFTPUtil4);
+          //  uploadedFTPUtils.add(testFTPUtil4);
         }
 
         temp1 = testFTPUtil5.uploadLocalSingleFile("/home/ecs-user/DGSS/src/main/resources/out.wiki_talk_ht5",
@@ -154,14 +153,14 @@ public class finalTestClientTxt {
         if (uploaded[4]) {
             uploadedFTPUtils.add(testFTPUtil5);
         }
+
+
         //如果满足要求
         if (uploadedFTPUtils.size() >= copyNum) {
             for (int i = 0; i < copyNum; i++) {
-//                String cmd = "ls -1";
-//                 String cmd = "pwd";
+
                 SSHUtil shell = new SSHUtil(uploadedFTPUtils.get(i).FtpHost, uploadedFTPUtils.get(i).FtpUserName, uploadedFTPUtils.get(i).FtpPassword, uploadedFTPUtils.get(i).SSHPort);
-//                String execLog = shell.execCommand(cmd);
-//                System.out.println(execLog);
+
             }
         } else {
             System.out.println("已上传节点数不满足要求！");
@@ -181,28 +180,20 @@ public class finalTestClientTxt {
 
 
         //==== 由于这个是读文本文件的版本，不再需要 获取全部已经完成的GSS序列化对象，并将其反序列化到内存
-//        ArrayList<GSS> GSSs = new ArrayList<>();
-//        for (int i = 0; i < copyNum; i++) {
-//            //将远程序列化对象文件下载到本地
-//            FTPUtil temp = uploadedFTPUtils.get(i);
-//            temp.downloadRemoteSingleFile(temp.DeserializedRemoteFileName, temp.DeserializedLocalFileName);
-//
-//
-//            GSS testGSS = null;
-//            try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(temp.DeserializedLocalFileName))) {
-//                testGSS = (GSS) in.readObject();
-//            } catch (IOException | ClassNotFoundException e) {
-//                e.printStackTrace();
-//            }
-//
-//            GSSs.add(testGSS);
-//        }
-
         //====先测试能否将服务器上产生的预测值和数据下载到本地
+        for (int i = 0; i < copyNum; i++) {
+            //将远程序列化对象文件下载到本地
+            FTPUtil temp = uploadedFTPUtils.get(i);
+            temp.downloadRemoteSingleFile(temp.DeserializedRemoteFileName, temp.DeserializedLocalFileName);
+
+
+        }
+
+
         ListGraph testListGraph = new ListGraph();
-   //     EvaluationResultGetter.getAllDistributedResults(GSSs,testListGraph,masterFileName,dataNodeNum);
 
 
+        EvaluationResultGetter.getAllDistributedResultsTxt(uploadedFTPUtils, testListGraph, masterFileName, dataNodeNum);
 
 
     }
