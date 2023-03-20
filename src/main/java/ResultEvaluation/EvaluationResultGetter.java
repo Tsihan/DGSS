@@ -375,10 +375,10 @@ public class EvaluationResultGetter {
             float predicateValue = 0;
             //小循环 取平均值向上取整
             for (GSS temp : gsses) {
-                predicateValue += temp.nodeDegreeQuery(node, 0);
+                predicateValue += (float) temp.nodeDegreeQuery(node, 0)/ getRevisionFactor(dataNodeNum);
             }
-
-            predicateValue = predicateValue / getRevisionFactor(dataNodeNum);
+            //似乎不用取平均
+            //predicateValue = predicateValue/(float)gsses.size() ;
             //predicateValue = (int) Math.ceil((float) predicateValue / (float) copyNum);
 
             //避免出现除数为0的情况
