@@ -117,7 +117,7 @@ public class FTPUtil {
         FtpClient.enterLocalPassiveMode();
 
         // 设置以二进制流的方式传输
-        FtpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
+        FtpClient.setFileType(FTPClient.ASCII_FILE_TYPE);
         InputStream input = FtpClient.retrieveFileStream(remoteAbsoluteFileName);
         OutputStream output = new FileOutputStream(localFileName);
 

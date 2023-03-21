@@ -13,7 +13,7 @@ public class testEvaluationResultGetter {
 
         /*初始化GSS测试参数*/
         // the side length of matrix
-        int width = 200;
+        int width = 400;
         // the length of hash addtress list
         int range = 20;
         // the number of candidate bucekt
@@ -21,12 +21,15 @@ public class testEvaluationResultGetter {
         // the number of rooms 不能超过room的最大限制
         int size = 2;
         // finger print lenth
-        int f_num = 12;
+        int f_num = 8;
         // whether to use hash table
         boolean usehashtable = true;
         // the size of the table
         int TableSize = 200;
-        String fileName = "src/main/resources/out.wiki_talk_ht";
+        //更大的数据集
+        //String fileName = "src/main/resources/out.wiki_talk_lv";
+        //最大的数据集
+        String fileName = "src/main/resources/out.lkml-reply";
         GSS testGSS = new GSS(width, range, p_num, size, f_num, usehashtable, TableSize, HashFunction.hashfunctions.BOB1);
         ListGraph testListGraph = new ListGraph();
         //通过测试
