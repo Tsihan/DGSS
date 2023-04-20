@@ -27,9 +27,9 @@ public class testEvaluationResultGetter {
         // the size of the table
         int TableSize = 200;
         //更大的数据集
-        //String fileName = "src/main/resources/out.wiki_talk_lv";
+      // String fileName = "src/main/resources/out.wiki_talk_lv1";
         //最大的数据集
-        String fileName = "src/main/resources/out.lkml-reply";
+       String fileName = "src/main/resources/out.lkml-reply1";
         GSS testGSS = new GSS(width, range, p_num, size, f_num, usehashtable, TableSize, HashFunction.hashfunctions.BOB1);
         ListGraph testListGraph = new ListGraph();
         //通过测试
@@ -49,8 +49,15 @@ public class testEvaluationResultGetter {
         //   EvaluationResultGetter.getBufferPercentage(UnitTest.testGSS,fileName);
 
         // System.out.println( EvaluationResultGetter.getAveragePrecision(UnitTest.testGSS,UnitTest.testListGraph,fileName));
+        // 开始时间
+        long stime1 = System.currentTimeMillis();
 
         EvaluationResultGetter.getAllResults(testGSS, testListGraph, fileName);
+        // 结束时间
+        long etime1 = System.currentTimeMillis();
+        // 计算执行时间
+        long gap1 = etime1 - stime1;
+        System.out.println("将原始文件通过GSS获取指标时长为" + gap1 + "毫秒.");
 
     }
 }
